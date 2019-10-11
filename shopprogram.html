@@ -16,7 +16,7 @@
 <body onload="display()">
     <center style="position: absolute; top:50%; left:50%; transform: translate(-50%,-50%);">
     	<h1 style="color: #000; font-weight: 900;">LIST OF PRODUCTS</h1>
-    	<div style="width: 70%; height:90px; overflow-y:auto;" id="div1"></div>
+    	<div style="width: 550px; height:90px; overflow-y:auto; overflow-x: hidden;" id="div1"></div>
 		<button id="demo" class=".btn" style="width: 200px; height: 70px; background-color: #6A1B9A; color: white; border-radius: 5px; border-color: transparent; font-size: 18px; font-weight: 800;">Add new product</button><br>
 		<input type="number" id="sea" style="width: 150px; height:25px; border-radius: 3px; border: 2px solid #333;" placeholder="        Search here"> <span onclick="search()" class="glyphicon glyphicon-search"></span>
 		<div id="res" style="width: 70%; max-height:90px; margin-top:25px;"></div>
@@ -35,6 +35,8 @@
         	</div>
 		</div>
 	</center>
-	<button onclick="clr()" style="width: 100px; height: 30px; background-color: #F44336; color: white; font-size: 18px; font-weight: 800; margin-top: 20px; border-radius: 5px; border-color: transparent; margin-left:40px;">Clear</button> 
+	<button onclick="clr()" style="width: 100px; height: 30px; background-color: #F44336; color: white; font-size: 18px; font-weight: 800; margin-top: 20px; border-radius: 5px; border-color: transparent; margin-left:40px;">Clear</button>
+	<a href="cart.html" target="_blank"><button style="width: 200px; height: 30px; background-color: #F44336; color: white; font-size: 18px; margin-top: 20px; border-radius: 5px; border-color: transparent; margin-right:40px; float:right;"><span class="glyphicon glyphicon-shopping-cart"></span> VIEW CART</button>
+	</a> 
 </body>
 </html>

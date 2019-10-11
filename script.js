@@ -3,6 +3,12 @@ var Itemdesc=new Array();
 var price=new Array();
 var qua=new Array();
 var text="";
+var cartItemname=new Array();
+var cartItemdesc=new Array();
+var cartprice=new Array();
+var cartqua=new Array();
+var text="";
+var txt="";
 $(document).ready(function(){
 	$("#ediform").slideUp();
 	$("#res").slideUp();
@@ -36,6 +42,10 @@ if(localStorage!=null)
 	Itemdesc=(localStorage.getItem('1')).split(',');
 	price=(localStorage.getItem('2')).split(',');
 	qua=(localStorage.getItem('3')).split(',');
+	cartItemname=(localStorage.getItem('4')).split(',');
+	cartItemdesc=(localStorage.getItem('5')).split(',');
+	cartprice=(localStorage.getItem('6')).split(',');
+	cartqua=(localStorage.getItem('7')).split(',');
 }
 function clr()
 {
@@ -140,20 +150,37 @@ function display()
 	}
 	 for(i=0;i<Itemname.length;i++)
 	{
-		text+="<div style='";
+		text+="<div style='position:relative' class='row'>";
+		if(qua[i]==0)
+		{
+			text+="<div style='";
+			if(i!=0)
+			{
+				text+="margin-top:35px;";
+			}
+			text+="background-color:rgba(255,255,0,0.6); border-radius:5px; position:absolute; z-index:10; width:100%; height:90px;'><center style='position:absolute;top:50%; left:50%; transform:translate(-50%, -50%); color:red; font-size:28px; font-weight:800'>OUT OF STOCK</center></div>"
+		}
+		text+="<div class='col-sm-4'style='";
 		if(i!=0)
 		{
 			text+="margin-top:35px;";
 		}
-		text+="font-size:16; color:#000; width:50%; height:70px; float:left;'>";
+		text+="font-size:16; color:#000; height:70px; float:left;'>";
 		text+=Itemname[i]+"<br>"+Itemdesc[i]+"<br>"+price[i]+"<br>"+qua[i]+"<br>"+"</div>";
-		text+="<div style='";
+		text+="<div class='col-sm-4' style='";
 		if(i!=0)
 		{
 			text+="margin-top:35px;";
 		}
-		text+="width:30%; height:70px; float:right;'><button style='color:#fff; background-color:red; border-color:transparent; border-radius:5px;' onclick=deleteItem("+i;
-		text+=")>DELETE</BUTTON><br><BUTTON id='editbu' style='color:#fff; background-color:red; border-color:transparent; border-radius:5px; margin-top:5px;' onclick='editItem("+i+");'>EDIT</button></div><br>";
+		text+="height:70px; float:right;'><button style='color:#fff; background-color:red; border-color:transparent; border-radius:5px;' onclick=deleteItem("+i;
+		text+=")>DELETE</BUTTON><br><BUTTON id='editbu' style='color:#fff; background-color:red; border-color:transparent; border-radius:5px; margin-top:5px;' onclick='editItem("+i+");'>EDIT</button></div>";
+		text+="<div class='col-sm-4'style='";
+		if(i!=0)
+		{
+			text+="margin-top:35px;";
+		}
+		text+="height:70px;'><button id='cart' style='margin-top:15px; background-color:red; color:#fff; width:140px; border-radius:5px; border-color:transparent;' onclick='addtocart("+i+");'>";
+		text+="<span class='glyphicon glyphicon-shopping-cart'></span>ADD TO CART</button></div></div>"
 	}
 	document.getElementById("div1").innerHTML=text;
 	text="";
@@ -213,4 +240,72 @@ function edi(i)
 	price=(localStorage.getItem('2')).split(',');
 	qua=(localStorage.getItem('3')).split(',');
 	display();
+}
+function addtocart(i)
+{
+	if(qua[i]==0)
+	{
+		return false;
+	}
+	var d=0;
+	for(j=0;j<cartItemname.length;j++)
+	{
+		if(cartItemname[j]==Itemname[i])
+		{
+			var t=parseInt(cartqua[j]);
+			t=t+1;
+			cartqua[j]=t;
+			d=1;
+			qua[i]=qua[i]-1;
+			break;
+		}
+	}
+	alert("ITEM ADDED TO CART");
+	if(d==0)
+	{
+		qua[i]=qua[i]-1;
+		cartItemname.push(Itemname[i]);
+	    cartItemdesc.push(Itemdesc[i]);
+	    cartprice.push(price[i]);
+	    cartqua.push(1);
+	}
+	JSON.stringify(cartItemname);
+	JSON.stringify(cartItemdesc);
+	JSON.stringify(cartprice);
+	JSON.stringify(cartqua);
+	localStorage.setItem('3',qua);
+	localStorage.setItem('4',cartItemname);
+	localStorage.setItem('5',cartItemdesc);
+	localStorage.setItem('6',cartprice);
+	localStorage.setItem('7',cartqua);
+	cartItemname=(localStorage.getItem('4')).split(',');
+	cartItemdesc=(localStorage.getItem('5')).split(',');
+	cartprice=(localStorage.getItem('6')).split(',');
+	cartqua=(localStorage.getItem('7')).split(',');
+	location.reload();
+}
+function displayCart()
+{
+	text="";
+	 for(i=0;i<cartItemname.length;i++)
+	{
+		text+="<div class='row'>";
+		text+="<div class='col-sm-7'style='";
+		if(i!=0)
+		{
+			text+="margin-top:35px;";
+		}
+		text+="font-size:16; color:#000; height:70px; float:left;'>";
+		text+=cartItemname[i]+"<br>"+cartItemdesc[i]+"<br>"+cartprice[i]+"<br>"+cartqua[i]+"<br>"+"</div>";
+		text+="<div class='col-sm-5' style='";
+		if(i!=0)
+		{
+			text+="margin-top:35px;";
+		}
+		text+="height:70px; float:right;'><button style='color:#fff; background-color:red; border-color:transparent; border-radius:5px;' onclick=deleteItem("+i;
+		text+=")>DELETE</BUTTON></div>";
+		text+="</div>"
+	}
+	document.getElementById("showcart").innerHTML=text;
+	text="";
 }
