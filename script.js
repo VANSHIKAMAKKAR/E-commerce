@@ -243,10 +243,6 @@ function edi(i)
 }
 function addtocart(i)
 {
-	if(qua[i]==0)
-	{
-		return false;
-	}
 	var d=0;
 	for(j=0;j<cartItemname.length;j++)
 	{
